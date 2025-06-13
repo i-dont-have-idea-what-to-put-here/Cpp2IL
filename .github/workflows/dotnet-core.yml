@@ -110,16 +110,23 @@ jobs:
         run: dotnet restore /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
       - name: Build all
         run: dotnet build -c Release /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Pack StableNameDotNet
-        run: dotnet pack ./StableNameDotNet -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Pack WasmDisassembler
-        run: dotnet pack ./WasmDisassembler -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Pack LibCpp2IL
-        run: dotnet pack ./LibCpp2IL -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Pack Cpp2IL.Core
-        run: dotnet pack ./Cpp2IL.Core -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Upload Artifacts
+      - name: Upload StableNameDotNet
         uses: actions/upload-artifact@v3
         with:
-          name: nuget-packages
-          path: ./artifacts/*.nupkg
+          name: StableNameDotNet
+          path: ./StableNameDotNet/bin/Release/*
+      - name: Upload WasmDisassembler
+        uses: actions/upload-artifact@v3
+        with:
+          name: WasmDisassembler
+          path: ./WasmDisassembler/bin/Release/*
+      - name: Upload LibCpp2IL
+        uses: actions/upload-artifact@v3
+        with:
+          name: LibCpp2IL
+          path: ./LibCpp2IL/bin/Release/*
+      - name: Upload Cpp2IL.Core
+        uses: actions/upload-artifact@v3
+        with:
+          name: Cpp2IL.Core
+          path: ./Cpp2IL.Core/bin/Release/*
