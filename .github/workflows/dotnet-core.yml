@@ -75,10 +75,9 @@ jobs:
         with:
           name: Cpp2IL-Netframework472-Windows
           path: ./Cpp2IL/bin/Release/net472/win-x64/publish/
-  tests:
-    name: Run Tests & Publish Dev Package
+  nuget:
+    name: Publish Dev Package
     runs-on: ubuntu-latest
-    if: github.repository == 'SamboyCoding/Cpp2IL'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -111,23 +110,16 @@ jobs:
         run: dotnet restore /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
       - name: Build all
         run: dotnet build -c Release /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
-      - name: Run Tests
-        run: dotnet test -c Release /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }} --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput='./lcov.info' /p:ExcludeByAttribute="LibCpp2IL.Coverage.NoCoverageAttribute"
-      - name: Upload Coverage
-        uses: coverallsapp/github-action@v2.3.0
+      - name: Pack StableNameDotNet
+        run: dotnet pack ./StableNameDotNet -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
+      - name: Pack WasmDisassembler
+        run: dotnet pack ./WasmDisassembler -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
+      - name: Pack LibCpp2IL
+        run: dotnet pack ./LibCpp2IL -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
+      - name: Pack Cpp2IL.Core
+        run: dotnet pack ./Cpp2IL.Core -c Release -o ./artifacts /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            files: ./Cpp2IL.Core.Tests/lcov.info ./LibCpp2ILTests/lcov.info
-      - name: Publish StableNameDotNet
-        if: github.event_name == 'push'
-        run: dotnet nuget push -s https://nuget.samboy.dev/v3/index.json -k ${{ secrets.NUGET_KEY }} ./StableNameDotNet/bin/Release/*.nupkg
-      - name: Publish WasmDisassembler
-        if: github.event_name == 'push'
-        run: dotnet nuget push -s https://nuget.samboy.dev/v3/index.json -k ${{ secrets.NUGET_KEY }} ./WasmDisassembler/bin/Release/*.nupkg
-      - name: Publish LibCpp2IL
-        if: github.event_name == 'push'
-        run: dotnet nuget push -s https://nuget.samboy.dev/v3/index.json -k ${{ secrets.NUGET_KEY }} ./LibCpp2IL/bin/Release/*.nupkg
-      - name: Publish Cpp2IL.Core
-        if: github.event_name == 'push'
-        run: dotnet nuget push -s https://nuget.samboy.dev/v3/index.json -k ${{ secrets.NUGET_KEY }} ./Cpp2IL.Core/bin/Release/*.nupkg
-      
+          name: nuget-packages
+          path: ./artifacts/*.nupkg
