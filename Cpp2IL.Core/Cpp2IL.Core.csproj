@@ -63,7 +63,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Disarm\Disarm\Disarm.csproj" />
+        <ProjectReference Include="..\Disarm\Disarm\Disarm.csproj" />
         <ProjectReference Include="..\LibCpp2IL\LibCpp2IL.csproj" />
         
         <!--Future: Consider moving to its own project and moving the impl in cpp2il to a plugin-->
