@@ -2,9 +2,9 @@ name: .NET Core - Release
 
 on:
   push:
-    branches: [ Imy_dev ]
+    branches: [ deveploment ]
   pull_request:
-    branches: [ Imy_dev ]
+    branches: [ deveploment ]
   workflow_dispatch:
 
 jobs:
