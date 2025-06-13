@@ -111,22 +111,22 @@ jobs:
       - name: Build all
         run: dotnet build -c Release /p:VersionSuffix=${{ steps.set-vars.outputs.versionString }}
       - name: Upload StableNameDotNet
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: StableNameDotNet
           path: ./StableNameDotNet/bin/Release/*
       - name: Upload WasmDisassembler
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: WasmDisassembler
           path: ./WasmDisassembler/bin/Release/*
       - name: Upload LibCpp2IL
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: LibCpp2IL
           path: ./LibCpp2IL/bin/Release/*
       - name: Upload Cpp2IL.Core
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Cpp2IL.Core
           path: ./Cpp2IL.Core/bin/Release/*
