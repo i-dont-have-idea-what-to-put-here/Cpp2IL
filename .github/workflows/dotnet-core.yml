@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: 8.x
@@ -58,6 +60,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: 8.x
@@ -77,6 +81,8 @@ jobs:
     if: github.repository == 'SamboyCoding/Cpp2IL'
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: 8.x
