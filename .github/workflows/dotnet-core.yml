@@ -130,3 +130,8 @@ jobs:
         with:
           name: Cpp2IL.Core
           path: ./Cpp2IL.Core/bin/Release/*
+      - name: Upload Disarm
+        uses: actions/upload-artifact@v4
+        with:
+          name: Disarm
+          path: ./Disarm/bin/Release/*
